@@ -1,0 +1,77 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using StoreService_AT.Model;
+using StoreService_AT.Model.VOs;
+using StoreService_AT.RabbitMQ.Sender;
+using StoreService_AT.Repository;
+
+namespace StoreService_AT.Controllers
+{
+    [Route("api/StoreService/[controller]")]
+    [ApiController]
+    public class StoreController : ControllerBase
+    {
+        private IStoreRepository _repository;
+        private IRabbitMQMessageSender _rabbitMQMessageSender;
+
+        public StoreController(IStoreRepository repository, IRabbitMQMessageSender rabbitMQMessageSender)
+        {
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _rabbitMQMessageSender = rabbitMQMessageSender ?? throw new ArgumentNullException(nameof(rabbitMQMessageSender));
+        }
+
+        [HttpGet]
+        public List<Store> GetStores()
+        {
+            var stores = _repository.GetAllStores().Result;
+            //foreach (Store store in stores)
+            //{
+            //    _rabbitMQMessageSender.SendMessage(store, "getStoresQueue");
+            //}
+            return stores;
+        }
+        [HttpGet("{id}")]
+        public Store GetById(Guid id)
+        {
+            var aluno = _repository.FindStoreById(id).Result;
+            return aluno;
+        }
+        [HttpPost]
+        public async Task<ActionResult<Store>> Create([FromBody] Store store)
+        {
+            if (store == null) return BadRequest();
+            try
+            {
+                store.Id = Guid.NewGuid();
+                store.StoreAdress.StoreId = store.Id;
+                _rabbitMQMessageSender.SendMessage(store, "createStoreQueue");
+                return Ok(store);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPut]
+        public async Task<ActionResult> Edit([FromBody] Store store)
+        {
+            if (store == null && _repository.FindStoreById(store.Id) == null) return BadRequest();
+            try
+            {
+                await _repository.UpdateStore(store);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            var status = await _repository.DeleteStore(id);
+            if (!status) return BadRequest();
+            return Ok(status);
+        }
+    }
+}
