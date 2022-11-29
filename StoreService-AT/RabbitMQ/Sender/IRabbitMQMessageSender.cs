@@ -1,4 +1,4 @@
-﻿using MessageBus;
+﻿using StoreService_AT.MessageBuss;
 
 namespace StoreService_AT.RabbitMQ.Sender
 {

@@ -10,6 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IStoreRepository, StoreRepository>();
 builder.Services.AddSingleton<IRabbitMQMessageSender, RabbitMQMessageSender>();
 builder.Services.AddHostedService<RabbitMQMessageConsumer>();
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "redis:6379"; // redis is the container name of the redis service. 6379 is the default port
+    options.InstanceName = "SampleInstance";
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

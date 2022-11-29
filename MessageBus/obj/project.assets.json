@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\natan\\source\\repos\\StoreService-AT\\MessageBus\\MessageBus.csproj",
+      "projectUniqueName": "C:\\Users\\natan\\OneDrive\\Documentos\\GitHub\\LojaMicroServiceAT-ALFA\\MessageBus\\MessageBus.csproj",
       "projectName": "MessageBus",
-      "projectPath": "C:\\Users\\natan\\source\\repos\\StoreService-AT\\MessageBus\\MessageBus.csproj",
+      "projectPath": "C:\\Users\\natan\\OneDrive\\Documentos\\GitHub\\LojaMicroServiceAT-ALFA\\MessageBus\\MessageBus.csproj",
       "packagesPath": "C:\\Users\\natan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\natan\\source\\repos\\StoreService-AT\\MessageBus\\obj\\",
+      "outputPath": "C:\\Users\\natan\\OneDrive\\Documentos\\GitHub\\LojaMicroServiceAT-ALFA\\MessageBus\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

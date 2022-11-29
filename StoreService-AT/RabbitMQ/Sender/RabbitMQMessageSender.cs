@@ -1,8 +1,8 @@
-﻿using MessageBus;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using System.Text.Json;
 using System.Text;
 using StoreService_AT.Model;
+using StoreService_AT.MessageBuss;
 
 namespace StoreService_AT.RabbitMQ.Sender
 {
@@ -15,7 +15,7 @@ namespace StoreService_AT.RabbitMQ.Sender
 
         public RabbitMQMessageSender()
         {
-            _hostName = "localhost";
+            _hostName = "rabbitmq";
             _password = "guest";
             _userName = "guest";
         }

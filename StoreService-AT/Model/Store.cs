@@ -1,4 +1,4 @@
-﻿using MessageBus;
+﻿using StoreService_AT.MessageBuss;
 using StoreService_AT.Model.VOs;
 
 namespace StoreService_AT.Model

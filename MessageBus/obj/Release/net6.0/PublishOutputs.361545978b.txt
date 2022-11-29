@@ -1,0 +1,3 @@
+C:\Users\natan\OneDrive\Documentos\GitHub\LojaMicroServiceAT-ALFA\MessageBus\bin\Release\net6.0\publish\MessageBus.dll
+C:\Users\natan\OneDrive\Documentos\GitHub\LojaMicroServiceAT-ALFA\MessageBus\bin\Release\net6.0\publish\MessageBus.deps.json
+C:\Users\natan\OneDrive\Documentos\GitHub\LojaMicroServiceAT-ALFA\MessageBus\bin\Release\net6.0\publish\MessageBus.pdb

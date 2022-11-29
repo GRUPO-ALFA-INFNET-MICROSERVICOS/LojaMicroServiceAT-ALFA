@@ -1,0 +1,36 @@
+services:
+  storeservice-at:
+    build:
+      context: C:\Users\natan\OneDrive\Documentos\GitHub\LojaMicroServiceAT-ALFA
+      dockerfile: StoreService-AT/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: StoreService-AT
+      target: base
+    container_name: StoreService-AT
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: /root/.nuget/fallbackpackages
+    image: storeserviceat:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages
+        --additionalProbingPath /root/.nuget/fallbackpackages  "/app/bin/Debug/net6.0/StoreService-AT.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - target: 80
+    tty: true
+    volumes:
+    - C:\Users\natan\OneDrive\Documentos\GitHub\LojaMicroServiceAT-ALFA\StoreService-AT:/app:rw
+    - C:\Users\natan\vsdbg\vs2017u5:/remote_debugger:rw
+    - C:\Users\natan\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\natan\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages:/root/.nuget/fallbackpackages:ro
+    - C:\Users\natan\.nuget\packages:/root/.nuget/packages:ro
+    - C:\Users\natan\OneDrive\Documentos\GitHub\LojaMicroServiceAT-ALFA:/src:rw
+version: '3.4'

@@ -19,7 +19,7 @@ namespace StoreService_AT.RabbitMQ.Consumer
             _serviceProvider = serviceProvider;
             var factory = new ConnectionFactory
             {
-                HostName = "localhost",
+                HostName = "rabbitmq",
                 UserName = "guest",
                 Password = "guest"
             };
