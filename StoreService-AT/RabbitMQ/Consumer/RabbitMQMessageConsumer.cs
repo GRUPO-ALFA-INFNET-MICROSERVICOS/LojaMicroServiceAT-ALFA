@@ -17,17 +17,25 @@ namespace StoreService_AT.RabbitMQ.Consumer
         public RabbitMQMessageConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            var hostname = Environment.GetEnvironmentVariable("AMQP_HOSTNAME");
+            var password = Environment.GetEnvironmentVariable("AMQP_PASSWORD");
+            var username = Environment.GetEnvironmentVariable("AMQP_USERNAME");
+            if (hostname == null || password == null || username == null)
+            {
+                hostname = "rabbitmq";
+                password = "guest";
+                username = "guest";
+                Console.WriteLine("Nao foi encontrado as variaveis de ambiente para o rabbitmq. Usando o padrao");
+            }
             var factory = new ConnectionFactory
             {
-                HostName = "rabbitmq",
-                UserName = "guest",
-                Password = "guest"
+                HostName = hostname,
+                UserName = username,
+                Password = password
             };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
             _channel.QueueDeclare(queue: "createStoreQueue", false, false, false, arguments: null);
-
-
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)

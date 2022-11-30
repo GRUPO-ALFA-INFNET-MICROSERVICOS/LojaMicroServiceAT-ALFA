@@ -15,9 +15,19 @@ namespace StoreService_AT.RabbitMQ.Sender
 
         public RabbitMQMessageSender()
         {
-            _hostName = "rabbitmq";
-            _password = "guest";
-            _userName = "guest";
+            var hostname = Environment.GetEnvironmentVariable("AMQP_HOSTNAME");
+            var password = Environment.GetEnvironmentVariable("AMQP_PASSWORD");
+            var username = Environment.GetEnvironmentVariable("AMQP_USERNAME");
+            if (hostname == null || password == null || username == null)
+            {
+                hostname = "rabbitmq";
+                password = "guest";
+                username = "guest";
+                Console.WriteLine("Nao foi encontrado as variaveis de ambiente para o rabbitmq. Usando o padrao");
+            }
+            _hostName = hostname;
+            _password = password;
+            _userName = username;
         }
         public void SendMessage(BaseMessage message, string queueName)
         {
