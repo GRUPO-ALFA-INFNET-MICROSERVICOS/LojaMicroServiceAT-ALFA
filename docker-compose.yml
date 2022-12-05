@@ -3,6 +3,9 @@ version: '3.4'
 services:
   storeservice-at:
     image: ${DOCKER_REGISTRY-}storeserviceat
+    ports:
+        - 3064:3064
+        - 63064:63064
     build:
       context: .
       dockerfile: StoreService-AT/Dockerfile

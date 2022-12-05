@@ -4,6 +4,7 @@ using StoreService_AT.Model;
 using StoreService_AT.Model.VOs;
 using StoreService_AT.RabbitMQ.Sender;
 using StoreService_AT.Repository;
+using StoreService_AT.Service.ProductService;
 
 namespace StoreService_AT.Controllers
 {
@@ -13,21 +14,24 @@ namespace StoreService_AT.Controllers
     {
         private IStoreRepository _repository;
         private IRabbitMQMessageSender _rabbitMQMessageSender;
+        private IProductService _productService;
 
-        public StoreController(IStoreRepository repository, IRabbitMQMessageSender rabbitMQMessageSender)
+        public StoreController(IStoreRepository repository, IRabbitMQMessageSender rabbitMQMessageSender, IProductService productService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _rabbitMQMessageSender = rabbitMQMessageSender ?? throw new ArgumentNullException(nameof(rabbitMQMessageSender));
+            _productService = productService ?? throw new ArgumentNullException(nameof(productService));
         }
 
         [HttpGet]
-        public List<Store> GetStores()
+        public async Task<List<Store>> GetStores()
         {
             var stores = _repository.GetAllStores().Result;
-            //foreach (Store store in stores)
-            //{
-            //    _rabbitMQMessageSender.SendMessage(store, "getStoresQueue");
-            //}
+            foreach (Store store in stores)
+            {
+                store.Products = await _productService.FindAllProducts();
+                //_rabbitMQMessageSender.SendMessage(store, "getStoresQueue");
+            }
             return stores;
         }
         [HttpGet("{id}")]
