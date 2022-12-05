@@ -48,7 +48,7 @@ namespace StoreService_AT.Controllers
             {
                 store.Id = Guid.NewGuid();
                 store.StoreAdress.StoreId = store.Id;
-                _rabbitMQMessageSender.SendMessage(store, "createStoreQueue");
+                //_rabbitMQMessageSender.SendMessage(store, "createStoreQueue");
                 return Ok(store);
             }
             catch (Exception ex)
