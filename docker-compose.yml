@@ -7,8 +7,14 @@ services:
     ports:
         - 5672:5672
         - 15672:15672
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 30s
+      retries: 3
   storeservice-at:
     image: ${DOCKER_REGISTRY-}storeserviceat
+    restart: on-failure:5
     ports:
         - 3064:3064
         - 63064:63064
