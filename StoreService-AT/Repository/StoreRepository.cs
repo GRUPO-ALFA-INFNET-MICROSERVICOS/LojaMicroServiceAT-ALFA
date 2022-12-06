@@ -23,11 +23,11 @@ namespace StoreService_AT.Repository
             storeList.Add(store);
             return await Task.FromResult(store);
         }
-        public async Task<Store> UpdateStore(Store store)
+        public async Task<Store> UpdateStore(Store store, Guid oldStoreId)
         {
             foreach (Store oldStore in storeList)
             {
-                if (oldStore.Id == store.Id)
+                if (oldStore.Id == oldStoreId)
                 {
                     if (oldStore.StoreName != "")
                     {

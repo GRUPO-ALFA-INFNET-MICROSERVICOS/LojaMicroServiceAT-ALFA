@@ -8,7 +8,7 @@ namespace StoreService_AT.Repository
         Task<List<Store>> GetAllStores();
         Task<Store> FindStoreById(Guid id);
         Task<Store> CreateStore(Store store);
-        Task<Store> UpdateStore(Store store);
+        Task<Store> UpdateStore(Store store, Guid oldStoreId);
         Task<bool> DeleteStore(Guid id);
     }
 }

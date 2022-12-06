@@ -8,7 +8,7 @@ using StoreService_AT.Service.ProductService;
 
 namespace StoreService_AT.Controllers
 {
-    [Route("api/StoreService/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class StoreController : ControllerBase
     {
@@ -48,21 +48,22 @@ namespace StoreService_AT.Controllers
             {
                 store.Id = Guid.NewGuid();
                 store.StoreAdress.StoreId = store.Id;
+                var newstore = _repository.CreateStore(store);
                 //_rabbitMQMessageSender.SendMessage(store, "createStoreQueue");
-                return Ok(store);
+                return Ok(newstore);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPut]
-        public async Task<ActionResult> Edit([FromBody] Store store)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Edit([FromBody] Store store, Guid idoldStore)
         {
-            if (store == null && _repository.FindStoreById(store.Id) == null) return BadRequest();
+            if (store == null && _repository.FindStoreById(idoldStore) == null) return BadRequest();
             try
             {
-                await _repository.UpdateStore(store);
+                await _repository.UpdateStore(store, idoldStore);
                 return Ok();
             }
             catch (Exception ex)
@@ -75,7 +76,7 @@ namespace StoreService_AT.Controllers
         {
             var status = await _repository.DeleteStore(id);
             if (!status) return BadRequest();
-            return Ok(status);
+            return Ok("Deletado com sucesso");
         }
     }
 }
