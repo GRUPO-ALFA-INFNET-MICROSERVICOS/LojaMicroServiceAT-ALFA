@@ -27,11 +27,19 @@ namespace StoreService_AT.Controllers
         public async Task<List<Store>> GetStores()
         {
             var stores = _repository.GetAllStores().Result;
-            foreach (Store store in stores)
+            try
             {
-                store.Products = await _productService.FindAllProducts();
-                //_rabbitMQMessageSender.SendMessage(store, "getStoresQueue");
+                foreach (Store store in stores)
+                {
+                    store.Products = await _productService.FindAllProducts();
+                    //_rabbitMQMessageSender.SendMessage(store, "getStoresQueue");
+                }
             }
+            catch
+            {
+
+            }
+
             return stores;
         }
         [HttpGet("{id}")]
@@ -48,9 +56,10 @@ namespace StoreService_AT.Controllers
             {
                 store.Id = Guid.NewGuid();
                 store.StoreAdress.StoreId = store.Id;
+                store.StoreAdress.Id = Guid.NewGuid();
                 var newstore = _repository.CreateStore(store);
                 //_rabbitMQMessageSender.SendMessage(store, "createStoreQueue");
-                return Ok(newstore);
+                return Ok(newstore.Result);
             }
             catch (Exception ex)
             {
@@ -58,12 +67,12 @@ namespace StoreService_AT.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult> Edit([FromBody] Store store, Guid idoldStore)
+        public async Task<ActionResult> Edit([FromBody] Store store, Guid id)
         {
-            if (store == null && _repository.FindStoreById(idoldStore) == null) return BadRequest();
+            if (store == null && _repository.FindStoreById(id) == null) return BadRequest();
             try
             {
-                await _repository.UpdateStore(store, idoldStore);
+                await _repository.UpdateStore(store, id);
                 return Ok();
             }
             catch (Exception ex)
