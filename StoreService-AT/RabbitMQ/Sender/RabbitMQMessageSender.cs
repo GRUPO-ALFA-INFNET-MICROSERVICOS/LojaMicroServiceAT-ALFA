@@ -3,6 +3,8 @@ using System.Text.Json;
 using System.Text;
 using StoreService_AT.Model;
 using StoreService_AT.MessageBuss;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace StoreService_AT.RabbitMQ.Sender
 {
@@ -12,12 +14,14 @@ namespace StoreService_AT.RabbitMQ.Sender
         private readonly string _password;
         private readonly string _userName;
         private IConnection _connection;
+        private readonly IConfiguration Configuration;
 
-        public RabbitMQMessageSender()
+        public RabbitMQMessageSender(IConfiguration configuration)
         {
-            var hostname = Environment.GetEnvironmentVariable("AMQP_HOSTNAME");
-            var password = Environment.GetEnvironmentVariable("AMQP_PASSWORD");
-            var username = Environment.GetEnvironmentVariable("AMQP_USERNAME");
+            Configuration = configuration;
+            var hostname = Configuration["AMQP_HOSTNAME"];
+            var password = Configuration["AMQP_PASSWORD"];
+            var username = Configuration["AMQP_USERNAME"];
             if (hostname == null || password == null || username == null)
             {
                 hostname = "rabbitmq";

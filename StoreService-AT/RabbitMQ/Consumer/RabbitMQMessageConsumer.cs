@@ -13,13 +13,15 @@ namespace StoreService_AT.RabbitMQ.Consumer
         private readonly IServiceProvider _serviceProvider;
         private IConnection _connection;
         private IModel _channel;
+        private readonly IConfiguration Configuration;
 
-        public RabbitMQMessageConsumer(IServiceProvider serviceProvider)
+        public RabbitMQMessageConsumer(IServiceProvider serviceProvider, IConfiguration configuration)
         {
+            Configuration = configuration;
             _serviceProvider = serviceProvider;
-            var hostname = Environment.GetEnvironmentVariable("AMQP_HOSTNAME");
-            var password = Environment.GetEnvironmentVariable("AMQP_PASSWORD");
-            var username = Environment.GetEnvironmentVariable("AMQP_USERNAME");
+            var hostname = Configuration["AMQP_HOSTNAME"];
+            var password = Configuration["AMQP_PASSWORD"];
+            var username = Configuration["AMQP_USERNAME"];
             if (hostname == null || password == null || username == null)
             {
                 hostname = "rabbitmq";

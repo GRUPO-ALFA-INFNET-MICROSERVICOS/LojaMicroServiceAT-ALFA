@@ -1,13 +1,15 @@
-﻿namespace StoreService_AT.Model.VOs
+﻿using StoreService_AT.Model.ValueObjects;
+
+namespace StoreService_AT.Model.VOs
 {
     public class ProductVo
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public decimal Price { get; set; }
-        public string Description { get; set; }
-        public string Image { get; set; }
-        public Guid CategoryId { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public decimal price { get; set; }
+        public string description { get; set; }
+        public string image { get; set; }
+        public CategoryVo category { get; set; }
 
     }
 }

@@ -18,7 +18,7 @@ builder.Services.Configure<StoreDatabaseSettings>(builder.Configuration.GetSecti
 builder.Services.AddSingleton<IStoreDatabaseSettings>(sp => sp.GetRequiredService<IOptions<StoreDatabaseSettings>>().Value);
 
 builder.Services.AddHttpClient<IProductService, ProductService>(c =>
-         c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"])
+         c.BaseAddress = new Uri(builder.Configuration["ProductAPI"])
     );
 builder.Services.AddStackExchangeRedisCache(options =>
 {
@@ -33,11 +33,10 @@ var app = builder.Build();
 
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseAuthorization();
 
