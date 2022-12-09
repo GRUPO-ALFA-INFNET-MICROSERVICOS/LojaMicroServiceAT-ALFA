@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreService_AT.Model;
 using StoreService_AT.Model.ValueObjects;
 using StoreService_AT.Model.VOs;
 using StoreService_AT.RabbitMQ.Sender;
 using StoreService_AT.Repository;
 using StoreService_AT.Service.ProductService;
+using System.Drawing;
+using System.Xml.Linq;
 
 namespace StoreService_AT.Controllers
 {
@@ -14,13 +17,11 @@ namespace StoreService_AT.Controllers
     public class StoreController : ControllerBase
     {
         private IStoreRepository _repository;
-        private IRabbitMQMessageSender _rabbitMQMessageSender;
         private IProductService _productService;
 
-        public StoreController(IStoreRepository repository, IRabbitMQMessageSender rabbitMQMessageSender, IProductService productService)
+        public StoreController(IStoreRepository repository, IProductService productService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _rabbitMQMessageSender = rabbitMQMessageSender ?? throw new ArgumentNullException(nameof(rabbitMQMessageSender));
             _productService = productService ?? throw new ArgumentNullException(nameof(productService));
         }
 
@@ -32,12 +33,7 @@ namespace StoreService_AT.Controllers
             {
                 if (page == 0)
                     page = 1;
-                var allprodutos = new ProductMessage();
-
-                allprodutos = await _productService.FindAllProducts(name, categoryId, page, size);
-                
-
-                //allprodutos = await _productService.FindAllProducts(page);
+                var allprodutos = await _productService.FindAllProducts(name, categoryId, page, size);
                 
                 foreach (Store store in stores)
                 {
@@ -55,10 +51,14 @@ namespace StoreService_AT.Controllers
             return stores;
         }
         [HttpGet("{id}")]
-        public Store GetById(Guid id)
+        public async Task<Store> GetById(Guid id, string name, string categoryId, int page, int size)
         {
-            var aluno = _repository.FindStoreById(id).Result;
-            return aluno;
+            var store = _repository.FindStoreById(id).Result;
+            var allprodutos = await _productService.FindAllProducts(name, categoryId, page, size);
+            store.Products = allprodutos.Data;
+            store.TotalPages = allprodutos.TotalPages;
+            store.Products = allprodutos.Data;
+            return store;
         }
         [HttpPost]
         public async Task<ActionResult<Store>> Create([FromBody] Store store)
@@ -69,9 +69,9 @@ namespace StoreService_AT.Controllers
                 store.Id = Guid.NewGuid();
                 store.StoreAdress.StoreId = store.Id;
                 store.StoreAdress.Id = Guid.NewGuid();
-                var newstore = _repository.CreateStore(store);
+                var newstore = _repository.CreateStore(store).Result;
                 //_rabbitMQMessageSender.SendMessage(store, "createStoreQueue");
-                return Ok(newstore.Result);
+                return Ok(newstore);
             }
             catch (Exception ex)
             {
@@ -79,13 +79,13 @@ namespace StoreService_AT.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult> Edit([FromBody] Store store, Guid id)
+        public async Task<ActionResult<Store>> Edit([FromBody] Store store, Guid id)
         {
             if (store == null && _repository.FindStoreById(id) == null) return BadRequest();
             try
             {
-                await _repository.UpdateStore(store, id);
-                return Ok();
+                var newStore = await _repository.UpdateStore(store, id);
+                return Ok(newStore);
             }
             catch (Exception ex)
             {
