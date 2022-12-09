@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StoreService_AT.Model;
+using StoreService_AT.Model.ValueObjects;
 using StoreService_AT.Model.VOs;
 using StoreService_AT.RabbitMQ.Sender;
 using StoreService_AT.Repository;
@@ -24,14 +25,25 @@ namespace StoreService_AT.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Store>> GetStores()
+        public async Task<List<Store>> GetStores(string name, string categoryId, int page, int size)
         {
             var stores = _repository.GetAllStores().Result;
             try
             {
+                if (page == 0)
+                    page = 1;
+                var allprodutos = new ProductMessage();
+
+                allprodutos = await _productService.FindAllProducts(name, categoryId, page, size);
+                
+
+                //allprodutos = await _productService.FindAllProducts(page);
+                
                 foreach (Store store in stores)
                 {
-                    store.Products = await _productService.FindAllProducts();
+                    store.ProductPage = page;
+                    store.TotalPages = allprodutos.TotalPages;
+                    store.Products = allprodutos.Data;
                     //_rabbitMQMessageSender.SendMessage(store, "getStoresQueue");
                 }
             }

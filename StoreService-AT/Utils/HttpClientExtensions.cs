@@ -13,7 +13,8 @@ namespace StoreService_AT.Utils
                      new ApplicationException($"Something went wrong calling the API: " +
                      $"{response.ReasonPhrase}");
             var dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return JsonSerializer.Deserialize<T>(dataAsString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var teste = JsonSerializer.Deserialize<T>(dataAsString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return teste;
         }
         public static Task<HttpResponseMessage> PostAsJson<T>(
             this HttpClient httpClient, string url, T data)

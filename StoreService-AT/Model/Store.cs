@@ -13,6 +13,10 @@ namespace StoreService_AT.Model
         public string Telephone { get; set; }
         public Adress StoreAdress { get; set; }
         [BsonIgnore]
+        public int ProductPage { get; set; }
+        [BsonIgnore]
+        public int TotalPages { get; set; }
+        [BsonIgnore]
         public List<ProductVo> Products { get; set; }
     }
 }
