@@ -19,7 +19,7 @@ jobs:
       
       - name: Restore dependencies
         run: dotnet restore
-        working-directory: src/StoreService-AT/StoreService-AT.csproj
+        working-directory: StoreService-AT/StoreService-AT.csproj
       
       - name: Build
         run: dotnet build --no-restore
