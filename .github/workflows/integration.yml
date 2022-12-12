@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 env:
-  DIR_PATH: StoreService-AT
+  DIR_PATH: StoreService-AT/StoreService-AT.csproj
   
 jobs:
   build:
