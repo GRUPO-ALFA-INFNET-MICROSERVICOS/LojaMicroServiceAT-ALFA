@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreService-AT", "StoreSer
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{8F4E5B99-C856-4E0A-92E4-78801405A71E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStoreService", "..\TestStoreService\TestStoreService.csproj", "{B6B475F6-1DB7-4DCF-80C4-FA35BEAB79E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStoreService", "TestStoreService\TestStoreService.csproj", "{B6B475F6-1DB7-4DCF-80C4-FA35BEAB79E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
