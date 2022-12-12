@@ -61,7 +61,7 @@ namespace StoreService_AT.Controllers
             return store;
         }
         [HttpPost]
-        public async Task<ActionResult<Store>> Create([FromBody] StoreVO storeVo)
+        public async Task<ActionResult<StoreVO>> Create([FromBody] StoreVO storeVo)
         {
             if (storeVo == null) return BadRequest();
             try
@@ -86,7 +86,7 @@ namespace StoreService_AT.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult<Store>> Edit([FromBody] StoreVO storeVo, Guid id)
+        public async Task<ActionResult<StoreVO>> Edit([FromBody] StoreVO storeVo, Guid id)
         {
             if (storeVo == null && _repository.FindStoreById(id) == null) return BadRequest();
             try
