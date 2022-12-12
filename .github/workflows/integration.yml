@@ -23,7 +23,7 @@ jobs:
         run: dotnet build StoreService-AT/StoreService-AT.csproj --no-restore
       
       - name: Test
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test TestStoreService/TestStoreService.csproj --no-build --verbosity normal
             
       - name: Login to Docker Hub
         run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
