@@ -19,7 +19,6 @@ jobs:
       
       - name: Restore dependencies
         run: dotnet restore
-        working-directory: /home/runner/work/LojaMicroServiceAT-ALFA/StoreService-AT/StoreService-AT.csproj
       
       - name: Build
         run: dotnet build --no-restore
