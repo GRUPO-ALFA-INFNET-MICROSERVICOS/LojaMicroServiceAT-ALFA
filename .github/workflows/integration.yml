@@ -19,7 +19,7 @@ jobs:
           
       - name: Restore dependencies
         run: dotnet restore
-        working-directory: StoreService-AT.sln
+        working-directory: LojaMicroServiceAT-ALFA
       
       - name: Build
         run: dotnet build --no-restore
