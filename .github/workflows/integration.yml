@@ -18,8 +18,7 @@ jobs:
           dotnet-version: 6.0.x
           
       - name: Restore dependencies
-        run: dotnet restore
-        working-directory: LojaMicroServiceAT-ALFA
+        run: dotnet restore ~/StoreService-AT/StoreService-AT.csproj
       
       - name: Build
         run: dotnet build --no-restore
