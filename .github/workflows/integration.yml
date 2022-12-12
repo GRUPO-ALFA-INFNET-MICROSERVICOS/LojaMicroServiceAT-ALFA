@@ -1,0 +1,39 @@
+name: Esteira de Integracao
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: StoreService
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+      
+      - name: Setup .NET 6
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+      
+      - name: Restore dependencies
+        run: dotnet restore
+      
+      - name: Build
+        run: dotnet build --no-restore
+      
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+            
+      - name: Login to Docker Hub
+        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Docker build container image
+        run: docker build -t natanborrges/storeserviceat:$(date +%y%m%d).$(git rev-parse --short "$GITHUB_SHA") -t natanborrges/storeserviceat:1.05ALPHA .
+        
+      - name: Push to Docker Hub
+        run: docker push -a natanborrges/storeserviceat
