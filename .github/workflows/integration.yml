@@ -3,9 +3,6 @@ name: Esteira de Integracao
 on:
   push:
     branches: [main]
-
-env:
-  DIR_PATH: StoreService-AT/StoreService-AT.csproj
   
 jobs:
   build:
