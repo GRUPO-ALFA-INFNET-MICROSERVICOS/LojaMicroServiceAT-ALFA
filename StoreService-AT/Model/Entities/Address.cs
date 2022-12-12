@@ -1,8 +1,6 @@
-﻿
-
-namespace StoreService_AT.Model
+﻿namespace StoreService_AT.Model.Entities
 {
-    public class Adress
+    public class Address
     {
         public Guid Id { get; set; }
         public Guid StoreId { get; set; }

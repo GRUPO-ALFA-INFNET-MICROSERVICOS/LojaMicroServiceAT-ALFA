@@ -1,10 +1,10 @@
 ﻿using RabbitMQ.Client;
 using System.Text.Json;
 using System.Text;
-using StoreService_AT.Model;
 using StoreService_AT.MessageBuss;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StoreService_AT.Model.Entities;
 
 namespace StoreService_AT.RabbitMQ.Sender
 {

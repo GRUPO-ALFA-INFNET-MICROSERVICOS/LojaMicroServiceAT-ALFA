@@ -3,7 +3,7 @@ using MongoDB.Bson;
 using StoreService_AT.MessageBuss;
 using StoreService_AT.Model.VOs;
 
-namespace StoreService_AT.Model
+namespace StoreService_AT.Model.Entities
 {
     public class Store : BaseMessage
     {
@@ -11,7 +11,7 @@ namespace StoreService_AT.Model
         public Guid Id { get; set; }
         public string StoreName { get; set; }
         public string Telephone { get; set; }
-        public Adress StoreAdress { get; set; }
+        public Address StoreAdress { get; set; }
         [BsonIgnore]
         public int ProductPage { get; set; }
         [BsonIgnore]

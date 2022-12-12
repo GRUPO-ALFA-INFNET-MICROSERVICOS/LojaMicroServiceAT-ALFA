@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using StoreService_AT.Model;
+using StoreService_AT.Model.Entities;
 using StoreService_AT.Model.ValueObjects;
 using StoreService_AT.Model.VOs;
 using StoreService_AT.RabbitMQ.Sender;
@@ -61,11 +61,18 @@ namespace StoreService_AT.Controllers
             return store;
         }
         [HttpPost]
-        public async Task<ActionResult<Store>> Create([FromBody] Store store)
+        public async Task<ActionResult<Store>> Create([FromBody] StoreVO storeVo)
         {
-            if (store == null) return BadRequest();
+            if (storeVo == null) return BadRequest();
             try
             {
+                Store store = new()
+                {
+                    Id = storeVo.Id,
+                    StoreName = storeVo.StoreName,
+                    Telephone = storeVo.Telephone,
+                    StoreAdress = storeVo.StoreAdress,
+                };
                 store.Id = Guid.NewGuid();
                 store.StoreAdress.StoreId = store.Id;
                 store.StoreAdress.Id = Guid.NewGuid();
@@ -79,11 +86,18 @@ namespace StoreService_AT.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult<Store>> Edit([FromBody] Store store, Guid id)
+        public async Task<ActionResult<Store>> Edit([FromBody] StoreVO storeVo, Guid id)
         {
-            if (store == null && _repository.FindStoreById(id) == null) return BadRequest();
+            if (storeVo == null && _repository.FindStoreById(id) == null) return BadRequest();
             try
             {
+                Store store = new()
+                {
+                    Id = storeVo.Id,
+                    StoreName = storeVo.StoreName,
+                    Telephone = storeVo.Telephone,
+                    StoreAdress = storeVo.StoreAdress,
+                };
                 var newStore = await _repository.UpdateStore(store, id);
                 return Ok(newStore);
             }

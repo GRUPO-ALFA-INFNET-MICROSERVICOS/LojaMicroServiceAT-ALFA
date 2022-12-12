@@ -1,10 +1,10 @@
 ﻿using RabbitMQ.Client.Events;
 using RabbitMQ.Client;
 using StoreService_AT.Repository;
-using StoreService_AT.Model;
 using System.Text;
 using System.Text.Json;
 using StoreService_AT.Model.VOs;
+using StoreService_AT.Model.Entities;
 
 namespace StoreService_AT.RabbitMQ.Consumer
 {
@@ -63,7 +63,6 @@ namespace StoreService_AT.RabbitMQ.Consumer
                 Id = storevo.Id,
                 StoreName = storevo.StoreName,
                 Telephone = storevo.Telephone,
-                Products =  storevo.Products,
                 StoreAdress = storevo.StoreAdress,
             };
             using (IServiceScope scope = _serviceProvider.CreateScope())

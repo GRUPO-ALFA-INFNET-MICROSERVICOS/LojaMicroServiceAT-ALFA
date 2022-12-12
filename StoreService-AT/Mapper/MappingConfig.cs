@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using StoreService_AT.Model;
+using StoreService_AT.Model.Entities;
 using StoreService_AT.Model.VOs;
 
 namespace StoreService_AT.Mapper

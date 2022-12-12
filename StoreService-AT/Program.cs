@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using StoreService_AT.Model;
+using StoreService_AT.Model.Entities;
 using StoreService_AT.RabbitMQ.Consumer;
 using StoreService_AT.RabbitMQ.Sender;
 using StoreService_AT.Repository;
