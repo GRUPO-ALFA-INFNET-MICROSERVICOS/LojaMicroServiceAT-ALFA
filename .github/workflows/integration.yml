@@ -21,7 +21,7 @@ jobs:
         run: dotnet restore StoreService-AT.sln
       
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build StoreService-AT.sln --no-restore
       
       - name: Test
         run: dotnet test --no-build --verbosity normal
