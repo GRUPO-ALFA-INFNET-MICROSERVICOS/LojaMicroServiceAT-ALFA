@@ -5,12 +5,14 @@ using StoreService_AT.RabbitMQ.Consumer;
 using StoreService_AT.RabbitMQ.Sender;
 using StoreService_AT.Repository;
 using StoreService_AT.Service.ProductService;
+using StoreService_AT.Service.StoreService;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IStoreRepository, StoreRepository>();
+builder.Services.AddScoped<IStoreService, StoreService>();
 builder.Services.AddSingleton<IRabbitMQMessageSender, RabbitMQMessageSender>();
 builder.Services.AddHostedService<RabbitMQMessageConsumer>();
 

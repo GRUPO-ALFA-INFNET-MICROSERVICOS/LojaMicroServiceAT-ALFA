@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LojaMicroServiceAT-ALFA\StoreService-AT\StoreService-AT.csproj" />
+    <ProjectReference Include="..\StoreService-AT\StoreService-AT.csproj" />
   </ItemGroup>
 
 </Project>

@@ -47,7 +47,7 @@ namespace StoreService_AT.RabbitMQ.Consumer
             consumer.Received += (channel, evt) =>
             {
                 var content = Encoding.UTF8.GetString(evt.Body.ToArray());
-                StoreVO store = JsonSerializer.Deserialize<StoreVO>(content);
+                StoreVo store = JsonSerializer.Deserialize<StoreVo>(content);
                 ProcessStore(store).GetAwaiter().GetResult();
                 _channel.BasicAck(evt.DeliveryTag, false);
             };
@@ -56,7 +56,7 @@ namespace StoreService_AT.RabbitMQ.Consumer
         }
 
 
-        private async Task ProcessStore(StoreVO storevo)
+        private async Task ProcessStore(StoreVo storevo)
         {
             Store store = new()
             {

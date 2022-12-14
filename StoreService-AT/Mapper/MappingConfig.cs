@@ -9,7 +9,7 @@ namespace StoreService_AT.Mapper
         public static MapperConfiguration RegisterMaps()
         {
             var mappingConfig = new MapperConfiguration(config => {
-                config.CreateMap<StoreVO, Store>().ReverseMap();
+                config.CreateMap<StoreVo, Store>().ReverseMap();
             });
             return mappingConfig;
         }

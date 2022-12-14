@@ -1,9 +1,8 @@
 ﻿using StoreService_AT.Model.Entities;
-using StoreService_AT.Model.VOs;
 
-namespace StoreService_AT.Repository
+namespace StoreService_AT.Service.StoreService
 {
-    public interface IStoreRepository
+    public interface IStoreService
     {
         Task<List<Store>> GetAllStores(string name);
         Task<Store> FindStoreById(Guid id);

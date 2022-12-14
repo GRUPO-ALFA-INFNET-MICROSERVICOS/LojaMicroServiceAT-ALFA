@@ -19,9 +19,9 @@ namespace StoreService_AT.Repository
             _store = database.GetCollection<Store>(settings.StoreCollectionName);
         }
 
-        public async Task<List<Store>> GetAllStores()
+        public async Task<List<Store>> GetAllStores(string name)
         {
-            return await Task.FromResult(_store.Find(store => true).ToList());
+            return await Task.FromResult(_store.Find(store => store.StoreName.StartsWith(name)).ToList());
 
         }
         public async Task<Store> FindStoreById(Guid id)
@@ -45,8 +45,15 @@ namespace StoreService_AT.Repository
         }
         public async Task<bool> DeleteStore(Guid id)
         {
-            _store.DeleteOne(store => store.Id == id);
-            return await Task.FromResult(true);
+
+            var result = _store.DeleteOne(store => store.Id == id).IsAcknowledged;
+            return await Task.FromResult(result);
+        }
+
+        public async Task<List<Store>> FindStoresByName(string name)
+        {
+            var store = await Task.FromResult(_store.Find(store => store.StoreName.StartsWith(name)).ToList());
+            return store;
         }
     }
 }

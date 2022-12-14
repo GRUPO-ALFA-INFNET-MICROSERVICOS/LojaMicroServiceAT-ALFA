@@ -6,6 +6,7 @@ using StoreService_AT.Model.ValueObjects;
 using StoreService_AT.Model.VOs;
 using StoreService_AT.Repository;
 using StoreService_AT.Service.ProductService;
+using StoreService_AT.Service.StoreService;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using Xunit.Sdk;
@@ -22,19 +23,20 @@ namespace TestStoreService
             mockObject1.Setup(m => m.DatabaseName).Returns("StoreDB");
             return mockObject1.Object;
         }
+        #region Teste de Controller
         [Fact]
         public void TestGetStore()
         {
             //IProductService productService = this.prvGetMockProductRepositoryGetAll();
             IStoreDatabaseSettings databaseSettings = this.MockCriarDatabaseSettings();
-
+            StoreRepository storeRepository = new StoreRepository(databaseSettings);
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("http://product.bloco.live/");
             ProductService productService = new ProductService(client);
-            StoreRepository storeRepository = new StoreRepository(databaseSettings);
-            StoreController storeController = new StoreController(storeRepository, productService);
+            StoreService storeService = new StoreService(storeRepository);
+            StoreController storeController = new StoreController(storeService, productService);
 
-            var actualResult = storeController.GetStores("","",1,15);
+            var actualResult = storeController.GetStores("","","",1,15);
             var actualdata = actualResult.Result;
             Assert.NotNull(actualdata);
             Assert.True(actualResult.IsCompletedSuccessfully);
@@ -49,17 +51,18 @@ namespace TestStoreService
             client.BaseAddress = new Uri("http://product.bloco.live/");
             StoreRepository storeRepository = new StoreRepository(databaseSettings);
             ProductService productService = new ProductService(client);
-            StoreController storeController = new StoreController(storeRepository, productService);
+            StoreService storeService = new StoreService(storeRepository);
+            StoreController storeController = new StoreController(storeService, productService);
 
-            var allStores = storeController.GetStores("", "", 1, 15).Result;
-            var storeToFind = allStores.Select(x => x.Id).Last();
+            var allStores =  storeController.GetStores("","", "", 1, 15);
+            var actualdata = (allStores.Result.Result as OkObjectResult).Value as List<Store>;
 
+            var storeToFind = actualdata.Select(x => x.Id).Last();
 
-            var actualResult = storeController.GetById(storeToFind, "", "", 1, 15);
-            var actualdata = actualResult.Result;
-            Assert.NotNull(actualdata);
-            Assert.True(actualResult.IsCompletedSuccessfully);
-            return actualdata.Id;
+            var actualResult =  storeController.GetById(storeToFind, "", "", 1, 15);
+            var actualdataTest = (actualResult.Result.Result as OkObjectResult).Value as Store;
+            Assert.NotNull(actualdataTest);
+            return actualdataTest.Id;
         }
         [Fact]
         public async void TestPostStore()
@@ -71,10 +74,11 @@ namespace TestStoreService
             client.BaseAddress = new Uri("http://product.bloco.live/");
             StoreRepository storeRepository = new StoreRepository(databaseSettings);
             ProductService productService = new ProductService(client);
-            StoreController storeController = new StoreController(storeRepository, productService);
+            StoreService storeService = new StoreService(storeRepository);
+            StoreController storeController = new StoreController(storeService, productService);
 
 
-            var store = new StoreVO()
+            var store = new StoreVo()
             {
                 Id = Guid.NewGuid(),
                 StoreName = "Teste Criado pro delete",
@@ -107,7 +111,8 @@ namespace TestStoreService
             client.BaseAddress = new Uri("http://product.bloco.live/");
             StoreRepository storeRepository = new StoreRepository(databaseSettings);
             ProductService productService = new ProductService(client);
-            StoreController storeController = new StoreController(storeRepository, productService);
+            StoreService storeService = new StoreService(storeRepository);
+            StoreController storeController = new StoreController(storeService, productService);
 
             var actualresult2 = storeController.Delete(TestGetStoreById());
             Assert.NotNull(actualresult2.Result);
@@ -123,10 +128,11 @@ namespace TestStoreService
             client.BaseAddress = new Uri("http://product.bloco.live/");
             StoreRepository storeRepository = new StoreRepository(databaseSettings);
             ProductService productService = new ProductService(client);
-            StoreController storeController = new StoreController(storeRepository, productService);
+            StoreService storeService = new StoreService(storeRepository);
+            StoreController storeController = new StoreController(storeService, productService);
 
 
-            var store = new StoreVO()
+            var store = new StoreVo()
             {
                 StoreName = "Teste Para Editar",
                 Telephone = "874987421",
@@ -148,5 +154,8 @@ namespace TestStoreService
             Assert.NotNull(actualdata);
             Assert.True(actualResult.IsCompletedSuccessfully);
         }
+        #endregion
+        #region Teste Unitario
+        #endregion
     }
 }
