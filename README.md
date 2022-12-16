@@ -37,7 +37,7 @@ O serviço de Loja consulta apenas o serviço de Produtos a partir de consultas 
 <img width="663" alt="image" src="https://user-images.githubusercontent.com/57094854/208120156-ca67245d-9bc4-4eec-8e1a-3a943e74c2a6.png">
 
 ## 📎 [Objetivo](#objetivo)
-Esta aplicação tem como principal objetivo disponibilizar todo o contexto referente a assinatura de um produto. 
+Esta aplicação tem como principal objetivo disponibilizar todo o contexto referente a Loja. 
 Além disso, consulta o micro serviço de Produtos para mostrar a oferta de produtos referente a cada Loja.
 
 Responsabilidades do serviço de assinatura:
